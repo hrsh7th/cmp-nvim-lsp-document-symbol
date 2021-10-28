@@ -9,7 +9,7 @@ The purpose is the demonstration customize `/` search by nvim-cmp.
 # Setup
 
 ```lua
-require'cmp'.cmdline.setup('/', {
+require'cmp'.setup.cmdline('/', {
   sources = cmp.config.sources({
     { name = 'nvim_lsp_document_symbol' }
   }, {
