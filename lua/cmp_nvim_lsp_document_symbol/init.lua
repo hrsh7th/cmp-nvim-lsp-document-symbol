@@ -59,12 +59,12 @@ source.complete = function(self, _, callback)
       for _, node in ipairs(nodes) do
         local kind_name = SymbolKind[node.kind]
         if vim.tbl_contains({ 'Module', 'Namespace', 'Object', 'Class', 'Interface', 'Method', 'Function' }, kind_name) then
-          local line = vim.api.nvim_buf_get_lines(0, node.range.start.line, node.range.start.line + 1, false)[1] or ''
+          local line = vim.api.nvim_buf_get_lines(0, node.selectionRange.start.line, node.selectionRange.start.line + 1, false)[1] or ''
           table.insert(items, {
             label = ('%s%s'):format(string.rep(' ', level), string.gsub(line, '^%s*', '')),
-            insertText = ('\\%%%sl'):format(node.range.start.line + 1),
+            insertText = ('\\%%%sl'):format(node.selectionRange.start.line + 1),
             filterText = '@' .. node.name,
-            sortText = '' .. node.range.start.line,
+            sortText = '' .. node.selectionRange.start.line,
             kind = node.kind,
             data = node,
           })
