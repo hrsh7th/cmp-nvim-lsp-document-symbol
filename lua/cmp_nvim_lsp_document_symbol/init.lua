@@ -59,17 +59,20 @@ source.complete = function(self, _, callback)
       for _, node in ipairs(nodes) do
         local kind_name = SymbolKind[node.kind]
         if vim.tbl_contains({ 'Module', 'Namespace', 'Object', 'Class', 'Interface', 'Method', 'Function' }, kind_name) then
-          local range = node.selectionRange or node.range
-          local line = vim.api.nvim_buf_get_lines(0, range.start.line, range.start.line + 1, false)[1] or ''
-          table.insert(items, {
-            label = ('%s%s'):format(string.rep(' ', level), string.gsub(line, '^%s*', '')),
-            insertText = ('\\%%%sl'):format(range.start.line + 1),
-            filterText = '@' .. node.name,
-            sortText = '' .. range.start.line,
-            kind = node.kind,
-            data = node,
-          })
-          traverse(node.children or {}, level + 1)
+          -- node may be LSP DocumentSymbol or SymbolInformation (deprecated)
+          local range = node.selectionRange or node.range or (node.location or {}).range
+          if range ~= nil then
+            local line = vim.api.nvim_buf_get_lines(0, range.start.line, range.start.line + 1, false)[1] or ''
+            table.insert(items, {
+              label = ('%s%s'):format(string.rep(' ', level), string.gsub(line, '^%s*', '')),
+              insertText = ('\\%%%sl'):format(range.start.line + 1),
+              filterText = '@' .. node.name,
+              sortText = '' .. range.start.line,
+              kind = node.kind,
+              data = node,
+            })
+            traverse(node.children or {}, level + 1)
+          end
         end
       end
     end
