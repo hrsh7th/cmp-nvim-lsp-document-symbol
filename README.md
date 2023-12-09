@@ -13,14 +13,13 @@ require'cmp'.setup.cmdline('/', {
   sources = cmp.config.sources({
     {
         name = 'nvim_lsp_document_symbol',
-        -- Show a little bit more than default LSP types
+        -- Show a little bit more than default LSP types for specific file types
         option = {
             kinds_to_show = {
-	            "Module", "Namespace", "Package", "Class",
-                "Method", "Property", "Field", "Constructor",
-	            "Enum", "Interface", "Function", "Variable", "Constant",
-	            "Number", "Boolean", "Array", "Object", "Key", "Null",
-	            "EnumMember", "Struct", "Event", "TypeParameter",
+                cpp = {
+                    "Module", "Namespace", "Object", "Class", "Interface", "Method", "Function",
+                    "Constructor" -- new
+                }
             },
         },
     }
