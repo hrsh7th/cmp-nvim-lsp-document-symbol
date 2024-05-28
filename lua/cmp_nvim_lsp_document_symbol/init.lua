@@ -51,7 +51,11 @@ end
 
 source._get_kinds_to_show = function(self, params)
   local ft = vim.bo.filetype
-  return params.option.kinds_to_show[ft] or defaults.kinds_to_show
+  vim.print(params.option)
+  if params.option.kinds_to_show then
+    return params.option.kinds_to_show[ft] or defaults.kinds_to_show
+  end
+  return defaults.kinds_to_show
 end
 
 source.complete = function(self, params, callback)
