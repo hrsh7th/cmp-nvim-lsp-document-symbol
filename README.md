@@ -11,7 +11,18 @@ The purpose is the demonstration customize `/` search by nvim-cmp.
 ```lua
 require'cmp'.setup.cmdline('/', {
   sources = cmp.config.sources({
-    { name = 'nvim_lsp_document_symbol' }
+    {
+        name = 'nvim_lsp_document_symbol',
+        -- Show a little bit more than default LSP types for specific file types
+        option = {
+            kinds_to_show = {
+                cpp = {
+                    "Module", "Namespace", "Object", "Class", "Interface", "Method", "Function",
+                    "Constructor" -- new
+                }
+            },
+        },
+    }
   }, {
     { name = 'buffer' }
   })
